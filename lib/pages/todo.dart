@@ -9,11 +9,7 @@ class Todo extends StatefulWidget {
 
 class _TodoState extends State<Todo> {
   final _todo = TextEditingController();
-  final List<String> taskList = [
-    "Name",
-    "Name",
-    "Name",
-  ];
+  final List<String> taskList = [];
 
   @override
   Widget build(BuildContext context) {
