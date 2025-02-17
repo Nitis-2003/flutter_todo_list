@@ -47,7 +47,12 @@ class _TodoState extends State<Todo> {
                     minimumSize: const Size(50, 60),
                     shape: CircleBorder(),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    setState(() {
+                      taskList.add(_todo.text);
+                      _todo.clear();
+                    });
+                  },
                   child: Icon(Icons.add, color: Colors.white),
                 ),
               ],
@@ -68,7 +73,7 @@ class _TodoState extends State<Todo> {
                           },
                         icon: Icon(Icons.delete, color: Colors.red),
                       ),
-                      tileColor: Colors.lightBlueAccent,
+                      tileColor: Colors.lightBlue[100],
                       textColor: Colors.black,
                     ),
                   );
