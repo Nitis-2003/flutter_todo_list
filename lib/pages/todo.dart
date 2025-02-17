@@ -8,14 +8,20 @@ class Todo extends StatefulWidget {
 }
 
 class _TodoState extends State<Todo> {
-
   final _todo = TextEditingController();
-  final List<String> taskList = ["Name","Name","Name","Name","Name","Name","Name","Name","Name","Name","Name",];
+  final List<String> taskList = [
+    "Name",
+    "Name",
+    "Name",
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Todo List')),
+      appBar: AppBar(
+        title: Text('Todo List'),
+        backgroundColor: Colors.lightBlue,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -29,8 +35,8 @@ class _TodoState extends State<Todo> {
                   child: TextField(
                     controller: _todo,
                     decoration: InputDecoration(
-                    border: UnderlineInputBorder(),
-                    labelText: 'Add task',
+                      border: UnderlineInputBorder(),
+                      labelText: 'Add task',
                     ),
                   ),
                 ),
@@ -46,7 +52,7 @@ class _TodoState extends State<Todo> {
                 ),
               ],
             ),
-            SizedBox(height: 15,),
+            SizedBox(height: 15),
             Expanded(
               child: ListView.builder(
                 itemCount: taskList.length,
@@ -54,10 +60,19 @@ class _TodoState extends State<Todo> {
                   return Card(
                     child: ListTile(
                       title: Text(taskList[index]),
-                      tileColor: Colors.amber,
+                      trailing: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            taskList.removeAt(index);
+                          });
+                          },
+                        icon: Icon(Icons.delete, color: Colors.red),
+                      ),
+                      tileColor: Colors.lightBlueAccent,
+                      textColor: Colors.black,
                     ),
                   );
-                }
+                },
               ),
             ),
           ],
