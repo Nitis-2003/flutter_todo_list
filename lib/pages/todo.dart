@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Todo extends StatefulWidget {
   const Todo({super.key});
@@ -9,7 +10,20 @@ class Todo extends StatefulWidget {
 
 class _TodoState extends State<Todo> {
   final _todo = TextEditingController();
-  final List<String> taskList = [];
+  late List<String> taskList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    loadData();
+  }
+
+  void loadData() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      taskList = prefs.getStringList('tasks') ?? [];
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,11 +57,13 @@ class _TodoState extends State<Todo> {
                     minimumSize: const Size(50, 60),
                     shape: CircleBorder(),
                   ),
-                  onPressed: () {
+                  onPressed: () async{
+                    final SharedPreferences prefs = await SharedPreferences.getInstance();
                     setState(() {
                       taskList.add(_todo.text);
                       _todo.clear();
                     });
+                    await prefs.setStringList('tasks', taskList);
                   },
                   child: Icon(Icons.add, color: Colors.white),
                 ),
@@ -62,10 +78,14 @@ class _TodoState extends State<Todo> {
                     child: ListTile(
                       title: Text(taskList[index]),
                       trailing: IconButton(
-                        onPressed: () {
+                        onPressed: () async{
+                          final SharedPreferences prefs = await SharedPreferences.getInstance();
+                          
                           setState(() {
                             taskList.removeAt(index);
                           });
+
+                          await prefs.setStringList('tasks', taskList);
                           },
                         icon: Icon(Icons.delete, color: Colors.red),
                       ),
